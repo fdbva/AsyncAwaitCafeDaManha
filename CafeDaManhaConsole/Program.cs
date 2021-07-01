@@ -18,12 +18,7 @@ namespace Console
 
                 var fazerCafeTask = FazerCafe();
 
-                var servirCafeTask = fazerCafeTask
-                    .ContinueWith(async x =>
-                    {
-                        await ServirCafe();
-                    })
-                    .Unwrap();
+                var servirCafeTask = ServirCafe(fazerCafeTask);
 
                 var fritarOvosTask = FritarOvos();
 
@@ -46,8 +41,9 @@ namespace Console
             }
         }
 
-        private static async Task ServirCafe()
+        private static async Task ServirCafe(Task fazerCafeTask)
         {
+            await fazerCafeTask;
             System.Console.WriteLine("Começando a servir café");
 
             await Task.Delay(200);
